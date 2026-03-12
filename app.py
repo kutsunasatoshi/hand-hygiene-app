@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+kkfrom flask import Flask, request, render_template
 import sqlite3
 import datetime
 import pandas as pd
@@ -39,6 +39,14 @@ def init_db():
     )
     """)
 
+    # staffテーブル
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS staff(
+        id TEXT PRIMARY KEY,
+        ward TEXT
+    )
+    """)
+
     cur.execute("INSERT OR IGNORE INTO products VALUES('ノアテクトPRO',68,250)")
     cur.execute("INSERT OR IGNORE INTO products VALUES('Purell ADVANCEDフォーム',62,240)")
     cur.execute("INSERT OR IGNORE INTO products VALUES('サニサーラaqua light',47,250)")
@@ -51,7 +59,7 @@ init_db()
 
 
 # -------------------------
-# 製剤一覧取得
+# 製剤一覧
 # -------------------------
 def get_products():
 
@@ -65,7 +73,7 @@ def get_products():
 
 
 # -------------------------
-# 容器重量取得
+# 容器重量
 # -------------------------
 def get_container_weight(product):
 
@@ -89,7 +97,7 @@ def get_container_weight(product):
 
 
 # -------------------------
-# 前回重量取得
+# 前回重量
 # -------------------------
 def get_previous_weight(staff_id):
 
@@ -122,7 +130,6 @@ def save_measurement(staff_id, product, weight):
     now = datetime.datetime.now()
 
     prev_weight = get_previous_weight(staff_id)
-
     container_weight = get_container_weight(product)
 
     use_ml = 0
@@ -130,11 +137,8 @@ def save_measurement(staff_id, product, weight):
     if prev_weight is not None and container_weight is not None:
 
         if weight > prev_weight:
-
             use_g = prev_weight - container_weight
-
         else:
-
             use_g = prev_weight - weight
 
         use_ml = use_g * 1.25
@@ -183,7 +187,7 @@ def index():
 
 
 # -------------------------
-# QR入力ページ
+# QR入力
 # -------------------------
 @app.route("/input/<staff_id>", methods=["GET","POST"])
 def input_staff(staff_id):
@@ -379,7 +383,7 @@ def dashboard():
 
 
 # -------------------------
-# 開発用サーバ
+# サーバ起動
 # -------------------------
 if __name__ == "__main__":
 
