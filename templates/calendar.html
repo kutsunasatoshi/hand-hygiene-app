@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>個人カレンダー</title>
+</head>
+
+<body>
+
+<h1>職員 {{staff_id}} の日別アルコール使用量</h1>
+
+<table border="1">
+
+<tr>
+<th>日付</th>
+<th>使用量(ml)</th>
+</tr>
+
+{% for row in data %}
+
+<tr>
+<td>{{row.date}}</td>
+<td>{{row.use_ml}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

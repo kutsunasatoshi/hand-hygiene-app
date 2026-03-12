@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>病棟ダッシュボード</title>
+</head>
+
+<body>
+
+<hr>
+
+<a href="/">入力</a> |
+<a href="/ranking">個人ランキング</a> |
+<a href="/ward_ranking">病棟ランキング</a> |
+<a href="/dashboard">病棟ダッシュボード</a> |
+<a href="/calendar/00001">カレンダー</a>
+
+<hr>
+
+<h1>病棟別アルコール使用量</h1>
+
+{{ graph_html | safe }}
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>個人カレンダー</title>
+</head>
+
+<body>
+
+<hr>
+
+<a href="/">入力</a> |
+<a href="/ranking">個人ランキング</a> |
+<a href="/ward_ranking">病棟ランキング</a> |
+<a href="/dashboard">病棟ダッシュボード</a> |
+<a href="/staff/{{staff_id}}">個人履歴</a>
+
+<hr>
+
+<h1>職員 {{staff_id}} 月別カレンダー</h1>
+
+<table border="1">
+
+<tr>
+<th>月</th>
+<th>火</th>
+<th>水</th>
+<th>木</th>
+<th>金</th>
+<th>土</th>
+<th>日</th>
+</tr>
+
+{% for week in calendar_data %}
+
+<tr>
+
+{% for day in week %}
+
+<td width="120" height="80">
+
+<b>{{day.day}}</b><br>
+
+{{day.ml}} ml
+
+</td>
+
+{% endfor %}
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

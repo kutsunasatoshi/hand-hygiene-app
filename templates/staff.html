@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>個人履歴</title>
+</head>
+
+<body>
+
+<hr>
+
+<a href="/">入力</a> |
+<a href="/ranking">個人ランキング</a> |
+<a href="/ward_ranking">病棟ランキング</a> |
+<a href="/dashboard">病棟ダッシュボード</a> |
+<a href="/calendar/{{staff_id}}">カレンダー</a>
+
+<hr>
+
+<h1>職員 {{staff_id}} の履歴</h1>
+
+<table border="1">
+
+<tr>
+<th>日時</th>
+<th>重量(g)</th>
+<th>使用量(ml)</th>
+</tr>
+
+{% for row in data %}
+
+<tr>
+<td>{{row[0]}}</td>
+<td>{{row[1]}}</td>
+<td>{{row[2]}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>
