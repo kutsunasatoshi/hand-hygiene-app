@@ -84,6 +84,7 @@ def get_container_weight(product):
 
     if row:
         return row[0]
+
     return None
 
 
@@ -109,6 +110,7 @@ def get_previous_weight(staff_id):
 
     if row:
         return row[0]
+
     return None
 
 
@@ -120,6 +122,7 @@ def save_measurement(staff_id, product, weight):
     now = datetime.datetime.now()
 
     prev_weight = get_previous_weight(staff_id)
+
     container_weight = get_container_weight(product)
 
     use_ml = 0
@@ -127,8 +130,11 @@ def save_measurement(staff_id, product, weight):
     if prev_weight is not None and container_weight is not None:
 
         if weight > prev_weight:
+
             use_g = prev_weight - container_weight
+
         else:
+
             use_g = prev_weight - weight
 
         use_ml = use_g * 1.25
@@ -146,22 +152,35 @@ def save_measurement(staff_id, product, weight):
 
 
 # -------------------------
-# 入力
+# 入力ページ
 # -------------------------
 @app.route("/", methods=["GET","POST"])
 def index():
 
     products = get_products()
 
+    error = None
+
     if request.method == "POST":
 
-        staff_id = request.form["staff_id"]
-        product = request.form["product"]
-        weight = float(request.form["weight"])
+        staff_id = request.form.get("staff_id","")
+        product = request.form.get("product","")
+        weight_str = request.form.get("weight","")
 
-        save_measurement(staff_id, product, weight)
+        if weight_str.strip() == "":
+            error = "重量を入力してください"
 
-    return render_template("index.html", products=products)
+        else:
+
+            weight = float(weight_str)
+
+            save_measurement(staff_id, product, weight)
+
+    return render_template(
+        "index.html",
+        products=products,
+        error=error
+    )
 
 
 # -------------------------
@@ -172,17 +191,27 @@ def input_staff(staff_id):
 
     products = get_products()
 
+    error = None
+
     if request.method == "POST":
 
-        product = request.form["product"]
-        weight = float(request.form["weight"])
+        product = request.form.get("product","")
+        weight_str = request.form.get("weight","")
 
-        save_measurement(staff_id, product, weight)
+        if weight_str.strip() == "":
+            error = "重量を入力してください"
+
+        else:
+
+            weight = float(weight_str)
+
+            save_measurement(staff_id, product, weight)
 
     return render_template(
         "input.html",
         staff_id=staff_id,
-        products=products
+        products=products,
+        error=error
     )
 
 
@@ -251,7 +280,7 @@ def calendar_view(staff_id):
         for day in week:
 
             if day == 0:
-                row.append({"day":"", "ml":""})
+                row.append({"day":"","ml":""})
 
             else:
 
@@ -353,7 +382,7 @@ def dashboard():
 
 
 # -------------------------
-# 開発用サーバ
+# サーバ起動
 # -------------------------
 if __name__ == "__main__":
 
