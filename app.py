@@ -51,11 +51,11 @@ init_db()
 
 
 # -------------------------
-# 製剤一覧
+# 製剤一覧取得
 # -------------------------
 def get_products():
 
-    conn = sqlite3.connect(DB, timeout=10)
+    conn = sqlite3.connect(DB)
 
     df = pd.read_sql_query("SELECT name FROM products", conn)
 
@@ -65,11 +65,11 @@ def get_products():
 
 
 # -------------------------
-# 容器重量
+# 容器重量取得
 # -------------------------
 def get_container_weight(product):
 
-    conn = sqlite3.connect(DB, timeout=10)
+    conn = sqlite3.connect(DB)
     cur = conn.cursor()
 
     cur.execute("""
@@ -89,11 +89,11 @@ def get_container_weight(product):
 
 
 # -------------------------
-# 前回重量
+# 前回重量取得
 # -------------------------
 def get_previous_weight(staff_id):
 
-    conn = sqlite3.connect(DB, timeout=10)
+    conn = sqlite3.connect(DB)
     cur = conn.cursor()
 
     cur.execute("""
@@ -139,7 +139,7 @@ def save_measurement(staff_id, product, weight):
 
         use_ml = use_g * 1.25
 
-    conn = sqlite3.connect(DB, timeout=10)
+    conn = sqlite3.connect(DB)
     cur = conn.cursor()
 
     cur.execute("""
@@ -169,7 +169,6 @@ def index():
 
         if weight_str.strip() == "":
             error = "重量を入力してください"
-
         else:
 
             weight = float(weight_str)
@@ -184,7 +183,7 @@ def index():
 
 
 # -------------------------
-# QR入力
+# QR入力ページ
 # -------------------------
 @app.route("/input/<staff_id>", methods=["GET","POST"])
 def input_staff(staff_id):
@@ -200,7 +199,6 @@ def input_staff(staff_id):
 
         if weight_str.strip() == "":
             error = "重量を入力してください"
-
         else:
 
             weight = float(weight_str)
@@ -280,8 +278,7 @@ def calendar_view(staff_id):
         for day in week:
 
             if day == 0:
-                row.append({"day":"","ml":""})
-
+                row.append({"day":"", "ml":""})
             else:
 
                 d = datetime.date(today.year, today.month, day)
@@ -382,7 +379,7 @@ def dashboard():
 
 
 # -------------------------
-# サーバ起動
+# 開発用サーバ
 # -------------------------
 if __name__ == "__main__":
 
