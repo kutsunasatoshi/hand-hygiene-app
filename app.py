@@ -381,6 +381,21 @@ def dashboard():
         graph_html=fig.to_html(full_html=False)
     )
 
+@app.route("/debug/ranking_data")
+def debug_ranking_data():
+
+    conn = sqlite3.connect(DB)
+
+    df = pd.read_sql_query("""
+    SELECT staff_id, SUM(use_ml) as total_ml, COUNT(*) as n_records
+    FROM measurements
+    GROUP BY staff_id
+    ORDER BY total_ml DESC
+    """, conn)
+
+    conn.close()
+
+    return df.to_html(index=False)
 
 # -------------------------
 # サーバ起動
