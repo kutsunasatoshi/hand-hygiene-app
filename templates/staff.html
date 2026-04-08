@@ -22,6 +22,7 @@
 
 <tr>
 <th>日時</th>
+<th>製剤</th>
 <th>重量(g)</th>
 <th>使用量(ml)</th>
 </tr>
@@ -29,9 +30,10 @@
 {% for row in data %}
 
 <tr>
-<td>{{row[0]}}</td>
-<td>{{row[1]}}</td>
-<td>{{row[2]}}</td>
+<td>{{row.datetime}}</td>
+<td>{{row.product or "-"}}</td>
+<td>{{row.weight}}</td>
+<td>{{row.use_ml}}</td>
 </tr>
 
 {% endfor %}

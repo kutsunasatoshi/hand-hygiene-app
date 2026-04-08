@@ -97,7 +97,7 @@ document.getElementById("success").innerText = "";
 
 <div class="lastweight">
 
-直近重量： {{last_weight}} g
+直近重量： {% if last_weight is not none %}{{last_weight}} g{% else %}未登録{% endif %}
 
 </div>
 
@@ -138,6 +138,10 @@ autofocus
 </form>
 
 <div id="success" class="success"></div>
+
+{% if error %}
+<div style="color:red; margin-top:10px;">{{error}}</div>
+{% endif %}
 
 </div>
 

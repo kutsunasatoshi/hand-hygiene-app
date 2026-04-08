@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hand-hygiene-app
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: /opt/render/project/src/.venv/bin/gunicorn app:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.14
+      - key: DB_PATH
+        value: /var/data/database.db
+    disk:
+      name: hand-hygiene-data
+      mountPath: /var/data
