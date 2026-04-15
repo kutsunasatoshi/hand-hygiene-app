@@ -1,25 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>個人履歴</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-
-<hr>
-
-<a href="/">入力</a> |
-<a href="/ranking">個人ランキング</a> |
-<a href="/ward_ranking">病棟ランキング</a> |
-<a href="/dashboard">病棟ダッシュボード</a> |
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/">入力</a>
+<a href="/ranking">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
 <a href="/calendar/{{staff_id}}">カレンダー</a>
+</nav>
+</header>
 
-<hr>
-
+<section class="hero">
+<p class="eyebrow">Personal History</p>
 <h1>職員 {{staff_id}} の履歴</h1>
+<p class="subtitle">測定日時、製剤、重量、計算された使用量を時系列で確認できます。</p>
+</section>
 
-<table border="1">
-
+<section class="card">
+<div class="table-wrap">
+<table>
 <tr>
 <th>日時</th>
 <th>製剤</th>
@@ -28,17 +37,16 @@
 </tr>
 
 {% for row in data %}
-
 <tr>
 <td>{{row.datetime}}</td>
 <td>{{row.product or "-"}}</td>
 <td>{{row.weight}}</td>
 <td>{{row.use_ml}}</td>
 </tr>
-
 {% endfor %}
-
 </table>
-
+</div>
+</section>
+</main>
 </body>
 </html>

@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ja">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>個人カレンダー</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-
-<hr>
-
-<a href="/">入力</a> |
-<a href="/ranking">個人ランキング</a> |
-<a href="/ward_ranking">病棟ランキング</a> |
-<a href="/dashboard">病棟ダッシュボード</a> |
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/">入力</a>
+<a href="/ranking">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
 <a href="/staff/{{staff_id}}">個人履歴</a>
+</nav>
+</header>
 
-<hr>
+<section class="hero">
+<p class="eyebrow">Monthly Calendar</p>
+<h1>職員 {{staff_id}} のカレンダー</h1>
+<p class="subtitle">日別のアルコール使用量を月単位で確認できます。</p>
+</section>
 
-<h1>職員 {{staff_id}} 月別カレンダー</h1>
-
-<table border="1">
-
+<section class="card">
+<div class="table-wrap">
+<table class="calendar-table">
 <tr>
 <th>月</th>
 <th>火</th>
@@ -32,26 +40,20 @@
 </tr>
 
 {% for week in calendar_data %}
-
 <tr>
-
 {% for day in week %}
-
-<td width="120" height="80">
-
-<b>{{day.day}}</b><br>
-
-{{day.ml}} ml
-
+<td>
+{% if day.day %}
+<span class="day-number">{{day.day}}</span>
+<div class="day-ml">{{day.ml}} ml</div>
+{% endif %}
 </td>
-
 {% endfor %}
-
 </tr>
-
 {% endfor %}
-
 </table>
-
+</div>
+</section>
+</main>
 </body>
 </html>

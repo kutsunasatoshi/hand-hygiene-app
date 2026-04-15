@@ -1,30 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>個人カレンダー</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/">入力</a>
+<a href="/ranking">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
+<a href="/staff/{{staff_id}}">個人履歴</a>
+</nav>
+</header>
 
-<h1>職員 {{staff_id}} の日別アルコール使用量</h1>
+<section class="hero">
+<p class="eyebrow">Daily Summary</p>
+<h1>職員 {{staff_id}} の日別使用量</h1>
+</section>
 
-<table border="1">
-
+<section class="card">
+<div class="table-wrap">
+<table>
 <tr>
 <th>日付</th>
 <th>使用量(ml)</th>
 </tr>
 
 {% for row in data %}
-
 <tr>
 <td>{{row.date}}</td>
 <td>{{row.use_ml}}</td>
 </tr>
-
 {% endfor %}
-
 </table>
-
+</div>
+</section>
+</main>
 </body>
 </html>

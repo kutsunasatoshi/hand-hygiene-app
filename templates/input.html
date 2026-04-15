@@ -1,136 +1,62 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
-<title>アルコール入力</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-
-body {
-font-family: Arial;
-text-align: center;
-padding: 20px;
-}
-
-.container {
-max-width: 400px;
-margin: auto;
-}
-
-input, select {
-width: 100%;
-padding: 15px;
-font-size: 20px;
-margin-top: 10px;
-}
-
-button {
-width: 100%;
-padding: 20px;
-font-size: 22px;
-background-color: #007BFF;
-color: white;
-border: none;
-margin-top: 20px;
-}
-
-button:hover {
-background-color: #0056b3;
-}
-
-.success {
-color: green;
-font-weight: bold;
-margin-top: 10px;
-}
-
-.lastweight {
-color: #555;
-margin-top: 10px;
-}
-
-.menu {
-margin-bottom: 20px;
-}
-
-</style>
-
+<title>アルコール入力</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-
-<div class="menu">
-
-<a href="/">入力</a> |
-<a href="/ranking">個人ランキング</a> |
-<a href="/ward_ranking">病棟ランキング</a> |
-<a href="/dashboard">病棟ダッシュボード</a> |
-<a href="/staff/{{staff_id}}">履歴</a> |
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/">入力</a>
+<a href="/ranking">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
+<a href="/staff/{{staff_id}}">履歴</a>
 <a href="/calendar/{{staff_id}}">カレンダー</a>
+</nav>
+</header>
 
+<section class="hero compact-card">
+<p class="eyebrow">QR Input</p>
+<h1>スタッフ {{staff_id}}</h1>
+<p class="subtitle">製剤を選んで、現在のボトル重量を入力してください。</p>
+<div class="stat-strip">
+<span class="pill">直近重量 <strong>{% if last_weight is not none %}{{last_weight}} g{% else %}未登録{% endif %}</strong></span>
 </div>
+</section>
 
-<div class="container">
-
-<h2>スタッフ {{staff_id}}</h2>
-
-<div class="lastweight">
-
-直近重量： {% if last_weight is not none %}{{last_weight}} g{% else %}未登録{% endif %}
-
-</div>
-
+<section class="card compact-card">
 <form method="post">
-
-<label>アルコール製剤</label>
-
+<div class="field">
+<label for="product">アルコール製剤</label>
 <select name="product" id="product">
-
 {% for p in products %}
-
-<option value="{{p}}" {% if p==last_product %}selected{% endif %}>
-{{p}}
-</option>
-
+<option value="{{p}}" {% if p==last_product %}selected{% endif %}>{{p}}</option>
 {% endfor %}
-
 </select>
+</div>
 
-<label>重量 (g)</label>
+<div class="field">
+<label for="weight">重量 (g)</label>
+<input type="number" step="0.1" inputmode="decimal" name="weight" id="weight" required autofocus>
+</div>
 
-<input
-type="number"
-step="0.1"
-inputmode="decimal"
-name="weight"
-id="weight"
-required
-autofocus
->
-
-<button type="submit">
-
-送信
-
-</button>
-
+<button type="submit">送信</button>
 </form>
 
 {% if success %}
-<div id="success" class="success">入力しました</div>
+<div id="success" class="message success">入力しました</div>
 {% endif %}
 
 {% if error %}
-<div style="color:red; margin-top:10px;">{{error}}</div>
+<div class="message error">{{error}}</div>
 {% endif %}
-
-</div>
-
+</section>
+</main>
 </body>
-
 </html>

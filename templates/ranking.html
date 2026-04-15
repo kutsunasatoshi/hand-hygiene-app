@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>アルコール使用量ランキング</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-
-<hr>
-
-<a href="/">入力</a> |
-<a href="/ranking">個人ランキング</a> |
-<a href="/ward_ranking">病棟ランキング</a> |
-<a href="/dashboard">病棟ダッシュボード</a> |
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/">入力</a>
+<a href="/ranking" class="active">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
 <a href="/calendar/00001">カレンダー</a>
+</nav>
+</header>
 
-<hr>
+<section class="hero">
+<p class="eyebrow">Leaderboard</p>
+<h1>個人ランキング</h1>
+<p class="subtitle">スタッフ別の合計使用量と入力回数を確認できます。0 ml の記録も一覧に表示します。</p>
+</section>
 
-<h1>アルコール使用量ランキング</h1>
-
+<section class="plot-card">
 {% if graph_html %}
 {{ graph_html | safe }}
 {% else %}
-<p>ランキング対象データがまだありません。</p>
+<div class="empty-state">ランキング対象データがまだありません。</div>
 {% endif %}
+</section>
 
+<section class="card">
 <h2>ランキング一覧</h2>
-
-<table border="1" cellpadding="6">
+<div class="table-wrap">
+<table>
 <tr>
 <th>順位</th>
 <th>スタッフID</th>
@@ -36,14 +47,15 @@
 
 {% for row in table_data %}
 <tr>
-<td>{{row.rank}}</td>
+<td><span class="rank-number">{{row.rank}}</span></td>
 <td>{{row.staff_id}}</td>
 <td>{{row.total_ml}}</td>
 <td>{{row.n_records}}</td>
 </tr>
 {% endfor %}
-
 </table>
-
+</div>
+</section>
+</main>
 </body>
 </html>

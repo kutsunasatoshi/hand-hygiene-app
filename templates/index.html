@@ -1,73 +1,58 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ja">
 <head>
-
 <meta charset="UTF-8">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>アルコール使用量入力</title>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
+<main class="shell">
+<header class="topbar">
+<div class="brand"><span class="brand-mark"></span>Hand Hygiene</div>
+<nav class="nav">
+<a href="/" class="active">入力</a>
+<a href="/ranking">個人ランキング</a>
+<a href="/ward_ranking">病棟ランキング</a>
+<a href="/dashboard">ダッシュボード</a>
+</nav>
+</header>
 
-<hr>
-
-<a href="/">入力</a> |
-<a href="/ranking">個人ランキング</a> |
-<a href="/ward_ranking">病棟ランキング</a> |
-<a href="/dashboard">病棟ダッシュボード</a>
-
-<hr>
-
+<section class="hero">
+<p class="eyebrow">Manual Input</p>
 <h1>アルコール使用量入力</h1>
+<p class="subtitle">スタッフID、製剤、重量を入力して測定データを記録します。</p>
+</section>
 
+<section class="card compact-card">
 <form method="post">
+<div class="field">
+<label for="staff_id">スタッフID</label>
+<input type="text" name="staff_id" id="staff_id" required>
+</div>
 
-スタッフID
-
-<br>
-
-<input type="text" name="staff_id" required>
-
-<br><br>
-
-アルコール製剤
-
-<br>
-
-<select name="product">
-
+<div class="field">
+<label for="product">アルコール製剤</label>
+<select name="product" id="product">
 {% for p in products %}
-
 <option value="{{p}}">{{p}}</option>
-
 {% endfor %}
-
 </select>
+</div>
 
-<br><br>
+<div class="field">
+<label for="weight">重量 (g)</label>
+<input type="number" step="0.1" name="weight" id="weight" required>
+</div>
 
-重量 (g)
-
-<br>
-
-<input type="number" step="0.1" name="weight" required>
-
-<br><br>
-
-<button type="submit">
-
-送信
-
-</button>
+<button type="submit">送信</button>
 
 {% if error %}
-<p style="color:red;">{{error}}</p>
+<div class="message error">{{error}}</div>
 {% endif %}
-
 </form>
-
+</section>
+</main>
 </body>
-
 </html>
