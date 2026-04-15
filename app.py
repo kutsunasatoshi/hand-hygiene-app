@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import sqlite3
 import datetime
 import pandas as pd
@@ -265,6 +265,7 @@ def input_staff(staff_id):
     last_product, last_weight = get_last_measurement(staff_id)
 
     error = None
+    success = request.args.get("saved") == "1"
 
     if request.method == "POST":
 
@@ -279,11 +280,14 @@ def input_staff(staff_id):
 
             save_measurement(staff_id, product, weight)
 
+            return redirect(url_for("input_staff", staff_id=staff_id, saved=1))
+
     return render_template(
         "input.html",
         staff_id=staff_id,
         products=products,
         error=error,
+        success=success,
         last_product=last_product,
         last_weight=last_weight
     )

@@ -60,22 +60,6 @@ margin-bottom: 20px;
 
 </style>
 
-<script>
-
-function afterSubmit() {
-
-document.getElementById("weight").value = "";
-
-document.getElementById("success").innerText = "入力しました";
-
-setTimeout(function(){
-document.getElementById("success").innerText = "";
-},2000);
-
-}
-
-</script>
-
 </head>
 
 <body>
@@ -101,7 +85,7 @@ document.getElementById("success").innerText = "";
 
 </div>
 
-<form method="post" onsubmit="afterSubmit()">
+<form method="post">
 
 <label>アルコール製剤</label>
 
@@ -137,7 +121,9 @@ autofocus
 
 </form>
 
-<div id="success" class="success"></div>
+{% if success %}
+<div id="success" class="success">入力しました</div>
+{% endif %}
 
 {% if error %}
 <div style="color:red; margin-top:10px;">{{error}}</div>
