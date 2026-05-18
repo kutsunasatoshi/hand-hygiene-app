@@ -490,6 +490,23 @@ def debug_ranking_data():
 
     return df.to_html(index=False)
 
+
+@app.route("/admin/reset-measurements-20260518-a7f3c1", methods=["POST"])
+def admin_reset_measurements():
+
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("DELETE FROM measurements")
+    deleted_rows = cur.rowcount
+    conn.commit()
+    conn.close()
+
+    return {
+        "ok": True,
+        "deleted_rows": deleted_rows,
+        "message": "measurements reset"
+    }, 200
+
 # -------------------------
 # サーバ起動
 # -------------------------
